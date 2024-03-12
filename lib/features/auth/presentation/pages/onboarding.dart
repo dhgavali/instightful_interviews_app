@@ -11,13 +11,17 @@ class OnBoardingPage extends StatelessWidget {
 
   Future<bool> getAllPermissions()async{
     bool res = await PermissionManager.checkPermision();
+    // bool storagePermission = await PermissionManager.checkStoragePermission();
+    print("final res $res");
     if(res){
       return true;
     }
     else{
       try{
+        print("here 1");
           await PermissionManager.requestPermissions();
       await PermissionManager.requestAudioPermission();
+  await PermissionManager.requestStoragePermission();
       if(await PermissionManager.checkPermision()){
         return true;
       }

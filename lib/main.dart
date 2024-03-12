@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
      return GetMaterialApp(
           defaultTransition: Transition.leftToRight,
           debugShowCheckedModeBanner: false,
-          initialRoute: RoutesNames.landingPage,
+          initialRoute: RoutesNames.stepOne,
           getPages: AppRoutes.routes,
           theme: ThemeData(
             scaffoldBackgroundColor: Colors.white,

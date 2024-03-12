@@ -1,9 +1,17 @@
 
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:instightful_interviews_app/core/components/buttons.dart';
+import 'package:instightful_interviews_app/core/components/text_styles.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/controller/audio_controller.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/controller/timer_controller.dart';
+import 'package:instightful_interviews_app/routes/route_names.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:record/record.dart';
 
 class StartInterview extends StatefulWidget {
   const StartInterview({super.key});
@@ -47,14 +55,82 @@ final List<Map<String, dynamic>> _questions = [
     }
 ];
 
+final recorder = AudioRecorder();
+final recordings = <File>[]; // List to s
+final isRecording = ValueNotifier<bool>(false);
+
+
+@override
+  void dispose() {
+    // TODO: implement dispose
+
+    super.dispose();
+
+  }
+
+  Future<void> startRecording(String index) async {
+  try{
+  var dir = await getDownloadsDirectory();
+      String path = dir!.path + index + ".aac";
+      print("path $path");
+
+      await recorder.start(RecordConfig(), path: path);
+  }
+  catch(err){
+    print('error $err');
+  }
+    
+    
+     
+   
+  }
+
+  Future<void> stopRecording(index) async {
+    try{
+        var dir = await getDownloadsDirectory();
+        
+      String path = dir!.path + index + ".aac";
+      print("path $path");
+
+    final recording = await recorder.stop();
+    if (recording != null) {
+      recordings.add(File(path));
+    }
+    }catch(err){
+      print(err);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
      body: Center(
         child: GetBuilder<TimerController>(
           init: TimerController(),
-          builder: (controller) => Column(
+          builder: (controller) {
+            if(controller.currentQuestionIndex >= 1){
+               
+               return Container(
+                alignment: Alignment.center,
+                child:Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset("assets/icons/verified.png", width: width * 0.5 ,),
+                    MyTexts.h2("Interview Completed!"),
+                  
+                  PrimaryBtn(label: "Click to go Home", onpress: (){
+                    Get.toNamed(RoutesNames.homeScreen);
+                  })
+                  ],
+                ),
+               );
+            }
+            else{
+
+            
+            return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -72,7 +148,7 @@ final List<Map<String, dynamic>> _questions = [
               ElevatedButton(
                 onPressed: () {
                  if(controller.currentQuestionIndex < _questions.length - 1){
-
+                  
                   controller.showNextQuestion();
                  }
                  else{
@@ -83,6 +159,8 @@ final List<Map<String, dynamic>> _questions = [
                 child: Text('Next'),
               ),
             ],
-          ),),));
+          );
+            }
+          },),));
   }
 }
