@@ -1,12 +1,12 @@
 import 'package:record/record.dart';
 
 class AudioHandler{
-final recorder = AudioRecorder();
+final recorder = Record();
 // List to s
   Future<void> startRecording(String path) async {
   try{
       print("path $path");
-   await recorder.start(RecordConfig(), path: path);
+   await recorder.start();
   }
   catch(err){
     print('error $err');

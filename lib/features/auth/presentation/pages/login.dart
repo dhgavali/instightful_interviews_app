@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instightful_interviews_app/core/components/exports.dart';
 import 'package:instightful_interviews_app/core/secure_storage.dart';
-import 'package:instightful_interviews_app/features/auth/data/model/UserModel.dart';
 import 'package:instightful_interviews_app/features/auth/data/repository/authRepositoryImpl.dart';
 import 'package:instightful_interviews_app/routes/route_names.dart';
-
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});

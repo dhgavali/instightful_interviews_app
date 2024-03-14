@@ -56,7 +56,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart'; // Use the record package
 
 class AudioRecorderController extends GetxController {
-  final recorder = AudioRecorder();
+  // final recorder = AudioRecorder();
   final audioFile = Rxn<File>(); // Reactive variable for audio file
   final isRecording = RxBool(false); // Reactive variable for recording state
 
@@ -78,7 +78,7 @@ class AudioRecorderController extends GetxController {
 
       String appDocPath = appDocDir!.path;
       print("appdocpath $appDocPath");
-      var stream = await recorder.start(RecordConfig(), path: "$appDocPath/file.aac");
+      // var stream = await recorder.start(RecordConfig(), path: "$appDocPath/file.aac");
       // print(stream);
       isRecording.value = true;
     } else {
@@ -87,11 +87,11 @@ class AudioRecorderController extends GetxController {
   }
 
   Future<void> stopRecording() async {
-    final recording = await recorder.stop();
-    if (recording != null) {
-      // audioFile.value = File(recording);
-      isRecording.value = false;
-    }
+    // final recording = await recorder.stop();
+    // if (recording != null) {
+    //   // audioFile.value = File(recording);
+    //   isRecording.value = false;
+    // }
   }
 
   Future<void> saveRecording(String filename) async {
