@@ -1,105 +1,26 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:instightful_interviews_app/core/components/buttons.dart';
 import 'package:instightful_interviews_app/core/components/datePicker.dart';
-import 'package:instightful_interviews_app/core/components/exports.dart';
-import 'package:instightful_interviews_app/core/secure_storage.dart';
-import 'package:instightful_interviews_app/features/auth/data/repository/authRepositoryImpl.dart';
+import 'package:instightful_interviews_app/core/components/myColors.dart';
+import 'package:instightful_interviews_app/core/components/text_field.dart';
+import 'package:instightful_interviews_app/core/components/text_styles.dart';
 import 'package:instightful_interviews_app/features/auth/domain/entity/user_model.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/controller/date_controller.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/controller/gender_controller.dart';
-import 'package:instightful_interviews_app/routes/route_names.dart';
 
-class ProfilePage extends StatelessWidget {
-
-   ProfilePage({super.key});
-
-Map<String, dynamic> data = { "username": "string",
-  "email": "dhirajpawar@gmail.com",
-  "first_name": "Dhiraj",
-  "last_name": "Pawar",
-  "role": "Student",
-
-  };
-
-
-//method to load api data for future builder
-Future<User?> loadData(BuildContext context) async{
-                            AuthRepositoryImpl authRepositoryImpl = AuthRepositoryImpl();
-                            String? username = await StorageHelper.getUserToken();
-                           final dataOrError = await authRepositoryImpl.getUserDetails(username: username!);
-                           dataOrError.fold((l) {
-                            // MyWidgets.showSnackbar(msg: "Error!", context: context);
-                            return null;
-                           }, (r) async{
-                            // print("sucesss");
-                            MyWidgets.showSnackbar(msg: "Profile Data loaded", context: context);
-                            return r;
-                           });
-}
-  @override
-  Widget build(BuildContext context) {
-    return  Scaffold(
- appBar: AppBar( title: MyTexts.h3("Profile",
-     ),
-     centerTitle: false,
-   actions:  [
-    
-    GestureDetector(
-      onTap: (){
-        Get.offAllNamed(RoutesNames.onboard);
-      },
-      child: Padding(
-         padding:  EdgeInsets.symmetric(horizontal: 20.0),
-         child: Icon(Icons.logout),
-       ),
-    ),
-     ],), 
-     
-body: Container(
-  padding: EdgeInsets.symmetric(horizontal: 16),
-
-  child: 
-SingleChildScrollView(
-  child: FutureBuilder(
-    future: loadData(context),
-    builder: (context, snapshot) {
-      if(snapshot.connectionState == ConnectionState.done){
-        print(1);
-        if(snapshot.hasData){
-          print(2);
-          // User? user = snapshot.data;
-          // print(user);
-          // if(user != null){
-            // return Profile(user: user,);
-          // }
-        //   else{
-        //     Get.snackbar(
-        //   'User Not Found',
-        //   'Please try again letter',
-        //   backgroundColor: Colors.red,
-        //   colorText: Colors.white,
-        // );
-            // return Container();
-          // }
-        }
-      }
-      return Loadings.basic();
-      
-    }
-  ),
-)
-  ),
-      );
-  }
-}
-
-class Profile extends StatelessWidget {
+class EditProfile extends StatelessWidget {
      final GenderController genderController = Get.put(GenderController());
      final DateController dateController = Get.put(DateController());
-  final User user; 
-   Profile({
+  // final User user; 
+   
+    final     User user = User(username: "dhgavali", email: "dhgavali@gmail.com", password: "123", firstName: "Dhananjay", lastName: "Gavali", role: "student");
+   
+   EditProfile({
     super.key,
-    required this.user
+    // required this.user
   });
 
   @override

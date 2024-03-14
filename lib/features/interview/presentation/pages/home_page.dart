@@ -25,13 +25,14 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: Container(
+        width: width,
           child: Column(
         children: [
-          isProfileComplete
-              ? CompleteSlider(
-                  width: width,
-                )
-              : Container(),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.centerLeft,
+            child: MyTexts.h3("Hello Yash!",)),
+          SizedBox(height: 10,),
           Container(
             width: width * 0.6,
             child:
@@ -54,35 +55,6 @@ class HomePage extends StatelessWidget {
               }),
         ],
       )),
-    );
-  }
-}
-
-class CompleteSlider extends StatelessWidget {
-  final double width;
-  CompleteSlider({super.key, required this.width});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(
-          width: 50,
-          height: 50,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AppColors.Kgray.withOpacity(0.3)),
-          ),
-          child: MyTexts.body4("70%"),
-        ),
-        MyTexts.body1("Complete your profile ->"),
-        Divider(),
-        SizedBox(
-          height: 20,
-        ),
-      ]),
     );
   }
 }

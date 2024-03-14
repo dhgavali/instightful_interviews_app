@@ -16,6 +16,7 @@ class RoutesNames {
   // menu pages
   static const String history = "/history";
   static const String profile = "/profile";
+  static const String editProfile = "/editProfile";
   static const String interview = "/interview";
   static const String notification= "/notification";
 

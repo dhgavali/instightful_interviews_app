@@ -17,12 +17,15 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         defaultTransition: Transition.leftToRight,
         debugShowCheckedModeBanner: false,
-        initialRoute: RoutesNames.homeScreen,
+        initialRoute: RoutesNames.landingPage,
+
         getPages: AppRoutes.routes,
         theme: ThemeData(
+          useMaterial3: false,
           scaffoldBackgroundColor: Colors.white,
           fontFamily: "Poppins",
-          appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
+
+          appBarTheme: const AppBarTheme(backgroundColor: Colors.white, elevation: 0),
         ),
       ),
     );
