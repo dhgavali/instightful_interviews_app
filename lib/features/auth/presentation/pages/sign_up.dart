@@ -1,121 +1,127 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:instightful_interviews_app/core/components/exports.dart';
-import 'package:instightful_interviews_app/features/auth/data/repository/authRepositoryImpl.dart';
-import 'package:instightful_interviews_app/features/auth/domain/DTO/SignupDTO.dart';
+import 'package:instightful_interviews_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:instightful_interviews_app/routes/route_names.dart';
 
-class SignUpPage extends StatefulWidget {
-   SignUpPage({super.key});
+import '../../../../core/components/loading.dart';
+import '../../data/repository/authRepositoryImpl.dart';
+import '../widgets/auth_backgound.dart';
+import '../widgets/auth_textfields.dart';
+import '../widgets/auth_texts.dart';
+import '../widgets/buttons.dart';
 
-  @override
-  State<SignUpPage> createState() => _SignUpPageState();
-}
-
-class _SignUpPageState extends State<SignUpPage> {
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _fullname = TextEditingController();
-  final TextEditingController _mobile = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-
-  bool isAccepted = false; 
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    final AuthTexts authTexts = AuthTexts();
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController confirmPasswordController =
+        TextEditingController();
+    var _formKey = GlobalKey<FormState>();
+    final AuthRepositoryImpl authRepository = AuthRepositoryImpl();
 
-  return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: GestureDetector(
-        onTap: () {
-          FocusManager.instance.primaryFocus!.unfocus();
-        },
-        child: SafeArea(
-          child: Container(
-            alignment: Alignment.center,
-            width: width,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            child:
-               Form(
-                      key: _formkey,
-                      child: Column(
-
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                         appLogo(width: 200),
-                           SizedBox(height: width * 0.05,),
-                        Container(
-                          padding:  EdgeInsets.symmetric(horizontal: width * 0.08,),
-                          alignment: Alignment.centerLeft,child:  MyTexts.h3("Get Started!"),),
-                        Container(
-                          padding:  EdgeInsets.symmetric(horizontal: width * 0.08),
-                          alignment: Alignment.centerLeft,child:  MyTexts.h3("Register for free!"),),
-                          SizedBox(height: width * 0.05,),
-                          myInpField(label: "Full Name", controller: _fullname,),
-                          myInpField(label: "Email", controller: _email, keytype: TextInputType.emailAddress),
-                          myInpField(label: "Mobile No", controller: _mobile, keytype: TextInputType.phone),
-                          myInpField(label: "Password", controller: _password, ispassword: true,),
-                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(width: width * 0.08,),
-                            Checkbox(value: isAccepted, onChanged: ((value) => {
-
-
-                          }),  ),
-                          MyTexts.body4("Accepts terms & conditions")
-,                          ],
-                         ),
-
-                          SizedBox(height: 10,),
-                     
-                          PrimaryBtn(label: "Continue", onpress: () async{
-                             SignupDTO signupDTO =  SignupDTO(_email.text, _password.text, _email.text,  _fullname.text.split(" ").first, _fullname.text.split(" ").last, "student");
-                            AuthRepositoryImpl authRepositoryImpl = AuthRepositoryImpl();
-                           final signupOrError = await authRepositoryImpl.signUpUser(dto: signupDTO);
-
-                           signupOrError.fold((l) {
-
-                            MyWidgets.showSnackbar(msg: "Error!", context: context);
-                           }, (r) async{
-                            print("sucesss");
-
-                            MyWidgets.showSnackbar(msg: "Account Created Successfully", context: context);
-                            await Future.delayed(Duration(seconds: 1));
-                            Get.offAndToNamed(RoutesNames.loginScreen);
-                           });
-                          }),
-                         
-
-                       
-                          SizedBox(height: 10,),
-                     
-                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+    return AuthBackgroundScaffold(
+      child: BlocProvider(
+        create: (context) => AuthBloc(authRepository: authRepository),
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is SignupSuccessState)
+              Get.toNamed(RoutesNames.loginScreen);
+          },
+          builder: (context, state) {
+            if (state is AuthLoadingState) return Loadings.basic();
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 70.h),
+                authTexts.title("Create Account"),
+                authTexts.subtitle("to get started now!"),
+                SizedBox(height: 25.h),
+                Form(
+                    key: _formKey,
+                    child: Column(
                       children: [
-                      MyTexts.body3("Already a User?"),
-                      SizedBox(width: 5,),
-                      GestureDetector(
-                        onTap: (){
-                          Get.offAndToNamed(RoutesNames.loginScreen);
-                        },
-                        child: MyTexts.h5("Login", color: AppColors.kSecondary)),
-                     ],),
-                          SizedBox(
-                            height: 20,
-                          ),
-
-                        ],
-                      ),
-                    ),
-            ),
-          ),
+                        AuthTextField(
+                          isPassword: false,
+                          hint: "Name",
+                          controller: nameController,
+                        ),
+                        const SizedBox(height: 10),
+                        AuthTextField(
+                          isPassword: false,
+                          hint: "Email Address",
+                          controller: emailController,
+                        ),
+                        const SizedBox(height: 10),
+                        AuthTextField(
+                          isPassword: true,
+                          hint: "Password",
+                          controller: passwordController,
+                        ),
+                        const SizedBox(height: 10),
+                        AuthTextField(
+                          isPassword: false,
+                          isObscure: true,
+                          hint: "Confrim Password",
+                          controller: confirmPasswordController,
+                        ),
+                        forgotPasswordButton(),
+                        (state is AuthFailureState)
+                            ? Text(
+                                state.message,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16.sp),
+                              )
+                            : const Text(""),
+                      ],
+                    )),
+                SizedBox(height: 20.h),
+                LoginButton(
+                  "Continue",
+                  onPressed: () => context.read<AuthBloc>().add(UserSignupEvent(
+                      name: nameController.text,
+                      email: emailController.text,
+                      password: passwordController.text,
+                      confirmPassword: confirmPasswordController.text)),
+                ),
+                SizedBox(height: 50.h),
+                Text(
+                  "Or Login with",
+                  style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                ),
+                SizedBox(height: 20.h),
+                SocialLoginButtons(),
+                SizedBox(height: 80.h),
+                ChangeAuthTextButton(isLogin: false),
+              ],
+            );
+          },
         ),
-    
+      ),
+    );
+  }
+
+  Row forgotPasswordButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(
+            style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.zero)),
+            onPressed: () {},
+            child: const Text(
+              "Forgot Password?",
+              style: TextStyle(color: Colors.white),
+            ))
+      ],
     );
   }
 }
