@@ -2,9 +2,13 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instightful_interviews_app/core/components/exports.dart';
+import 'package:instightful_interviews_app/features/interview/data/repository/interview_repository_impl.dart';
+import 'package:instightful_interviews_app/features/interview/presentation/bloc/interview_bloc.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/controller/terms_controller.dart';
 import 'package:instightful_interviews_app/routes/route_names.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+final InterviewBloc interviewBloc = InterviewBloc();
 
 class StepTwo extends StatefulWidget {
   StepTwo({super.key});
@@ -38,12 +42,12 @@ class _StepTwoState extends State<StepTwo> {
       await _initializeCamera();
     } else {
       // Handle permissions not granted
-      Get.snackbar(
-        'Permission Required',
-        'Please grant camera permission to continue',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      // Get.snackbar(
+      //   'Permission Required',
+      //   'Please grant camera permission to continue',
+      //   backgroundColor: Colors.red,
+      //   colorText: Colors.white,
+      // );
     }
   }
 
@@ -134,6 +138,10 @@ class _StepTwoState extends State<StepTwo> {
           PrimaryBtn(
             label: "Start Interview",
             onpress: () {
+              interviewBloc.add(BeginInterviewEvent(
+                  yoe: "2",
+                  role: "Frontend Developer",
+                  jd: "This job involves creating websites for company in React JS."));
               Get.toNamed(RoutesNames.startInterview);
               print("hello");
             },

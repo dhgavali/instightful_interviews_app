@@ -6,9 +6,11 @@ import '../../../../routes/route_names.dart';
 
 class LoginButton extends StatelessWidget {
   String text = "Login";
+  Color color;
   void Function() onPressed;
   LoginButton(
     this.text, {
+    this.color = Colors.white,
     required this.onPressed,
     super.key,
   });
@@ -17,6 +19,13 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
       child: Container(
         height: 50.h,
         width: double.infinity,
@@ -26,17 +35,9 @@ class LoginButton extends StatelessWidget {
             text,
             style: TextStyle(
                 fontSize: 18.sp,
-                color: Colors.black,
+                color: color == Colors.white ? Colors.black : Colors.white,
                 fontWeight: FontWeight.w700),
           ),
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.white,
-        elevation: 3,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
         ),
       ),
     );
@@ -62,6 +63,14 @@ class SignupButton extends StatelessWidget {
           border: Border.all(color: Colors.white, width: 3.h)),
       child: ElevatedButton(
         onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          // foregroundColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
         child: Center(
           child: Text(
             'Sign Up',
@@ -69,14 +78,6 @@ class SignupButton extends StatelessWidget {
                 fontSize: 18.sp,
                 color: Colors.white,
                 fontWeight: FontWeight.w700),
-          ),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          // foregroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
           ),
         ),
       ),
@@ -105,17 +106,17 @@ class SocialLoginButtons extends StatelessWidget {
       onPressed: () {
         // Handle login button press
       },
-      child: Container(
-        height: 50.h,
-        width: 118.w,
-        decoration: const BoxDecoration(),
-        child: const Icon(Icons.facebook),
-      ),
       style: ElevatedButton.styleFrom(
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
+      ),
+      child: Container(
+        height: 50.h,
+        width: 118.w,
+        decoration: const BoxDecoration(),
+        child: const Icon(Icons.facebook),
       ),
     );
   }

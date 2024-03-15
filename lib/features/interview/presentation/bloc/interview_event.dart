@@ -17,18 +17,11 @@ class BeginInterviewEvent extends InterviewEvent {
   List<Object> get props => [yoe, role, jd];
 }
 
-class EndInterviewEvent extends InterviewEvent {
-  final List<InterviewResponse> responses;
-
-  const EndInterviewEvent({required this.responses});
-
-  @override
-  List<Object> get props => [responses];
-}
+class EndInterviewEvent extends InterviewEvent {}
 
 class NextQuestionEvent extends InterviewEvent {
   final String answer, question;
-  final File audio;
+  final String audio;
 
   const NextQuestionEvent(
       {required this.answer, required this.question, required this.audio});

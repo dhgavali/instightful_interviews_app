@@ -12,7 +12,9 @@ abstract class InterviewRepository {
       {required String yoe, required String role, required String jd});
 
   Future<Either<Failure, InterviewResponse>> evaluateQuestion(
-      {required File audio, required String question, required String answer});
+      {required String audio,
+      required String question,
+      required String answer});
   Future<Either<Failure, InterviewResult>> generateResult(
       {required List<InterviewResponse> responses});
 }

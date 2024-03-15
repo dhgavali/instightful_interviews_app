@@ -22,11 +22,12 @@ final class InterviewFailureState extends InterviewState {
 
 final class InterviewBeginState extends InterviewState {
   final List<Question> questions;
+  final int questionNumber;
 
-  const InterviewBeginState({required this.questions});
+  const InterviewBeginState(this.questionNumber, {required this.questions});
 
   @override
-  List<Object> get props => [questions];
+  List<Object> get props => [questions, questionNumber];
 }
 
 final class InterviewEndState extends InterviewState {
@@ -48,3 +49,14 @@ final class NextQuestionState extends InterviewState {
 }
 
 final class ResultEvaluationFailureState extends InterviewState {}
+
+final class InterviewResultLoadingState extends InterviewState {}
+
+final class InterviewResultSuccesfulState extends InterviewState {
+  final InterviewResult result;
+
+  InterviewResultSuccesfulState({required this.result});
+
+  @override
+  List<Object> get props => [result];
+}

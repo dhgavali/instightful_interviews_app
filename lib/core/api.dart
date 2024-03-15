@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:instightful_interviews_app/core/error/exception.dart';
 
@@ -16,9 +17,9 @@ class API {
         "Content-type": "application/json",
         "Accept": "application/json"
       };
-
       var response =
           await http.post(url, headers: userHeader, body: json.encode(params));
+      response.printError();
       if (response.statusCode == 200) {
         return response.body;
       } else {
@@ -43,14 +44,17 @@ class API {
     }
   }
 
-  Future<dynamic> sendAudioFile(
-      String filePath, String apiUrl, String question, String answer) async {
+  Future<String> sendAudioFile(
+      String apiUrl, String question, String answer) async {
     try {
-      final file = File(filePath);
-      if (!await file.exists()) {
-        throw Exception('Audio file not found at path: $filePath');
-      }
+      final file = File(
+        "/Users/yashjaybhaye/Programming/Projects/instightful_interviews_app/assets/audio/videoplayback.wav",
+      );
 
+      if (!await file.exists()) {
+        throw Exception(
+            'Audio file not found at path: "assets/audio/videoplayback.wav",');
+      }
       final bytes = await file.readAsBytes();
       final multipartRequest = http.MultipartRequest('POST', Uri.parse(apiUrl));
 
@@ -65,10 +69,11 @@ class API {
 
       final streamedResponse = await multipartRequest.send();
       final response = await http.Response.fromStream(streamedResponse);
-
       if (response.statusCode == 200) {
         return response.body;
-      } else {}
+      } else {
+        throw Exception();
+      }
     } on Exception catch (error) {
       throw DatabaseException(error.toString());
     }

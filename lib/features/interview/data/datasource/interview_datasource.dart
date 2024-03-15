@@ -14,7 +14,9 @@ abstract class InterviewDatasource {
       {required String yoe, required String role, required String jd});
 
   Future<InterviewResponse> evaluateQuestion(
-      {required File audio, required String question, required String answer});
+      {required String audio,
+      required String question,
+      required String answer});
 
   Future<InterviewResult> generateResult(
       {required List<InterviewResponse> responses});
@@ -28,10 +30,13 @@ class InterviewDatasourceImpl implements InterviewDatasource {
       {required yoe, required String role, required String jd}) async {
     try {
       final QuestionDTO param = QuestionDTO(yoe: yoe, role: role, jd: jd);
-      final response = await api.post(path: "question", params: param.toMap());
+      final response = await api.post(
+          path: "questions",
+          params: param.toMap(),
+          apiUrl: "http://127.0.0.1:5000");
 
       final List<Question> questions = List<Question>.from(
-          json.decode(response).map((x) => Question.fromJson(x)));
+          json.decode(response)["questions"].map((x) => Question.fromMap(x)));
 
       return questions;
     } catch (e) {
@@ -41,18 +46,19 @@ class InterviewDatasourceImpl implements InterviewDatasource {
 
   @override
   Future<InterviewResponse> evaluateQuestion(
-      {required File audio,
+      {required String audio,
       required String question,
       required String answer}) async {
     try {
-      final response = await api.sendAudioFile("assets/audio/videoplayback.wav",
+      final response = await api.sendAudioFile(
           "http://127.0.0.1:5000/evaluate", question, answer);
 
       final InterviewResponse res =
-          InterviewResponse.fromJson(json.decode(response));
+          InterviewResponse.fromMap(jsonDecode(response));
 
       return res;
     } catch (e) {
+      print(e.toString());
       throw DatabaseException(e.toString());
     }
   }
@@ -61,10 +67,10 @@ class InterviewDatasourceImpl implements InterviewDatasource {
   Future<InterviewResult> generateResult(
       {required List<InterviewResponse> responses}) async {
     double language = 0, content = 0;
-    responses.map((e) {
-      language += double.parse(e.language);
-      content += double.parse(e.content);
-    });
+    for (var i = 0; i < responses.length; i++) {
+      language += responses[i].language;
+      content += responses[i].content;
+    }
     language = language / responses.length;
     content = content / responses.length;
     final result = 0.7 * content + 0.3 * language;

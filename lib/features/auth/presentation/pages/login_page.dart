@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:instightful_interviews_app/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:instightful_interviews_app/features/auth/presentation/widgets/auth_texts.dart';
 import 'package:instightful_interviews_app/routes/route_names.dart';
-
 import '../../../../core/components/loading.dart';
 import '../../data/repository/authRepositoryImpl.dart';
 import '../widgets/auth_backgound.dart';

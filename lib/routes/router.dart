@@ -1,7 +1,6 @@
 // Add routes used in application
 import 'package:get/get.dart';
 import 'package:instightful_interviews_app/features/auth/presentation/pages/auth.dart';
-import 'package:instightful_interviews_app/features/auth/presentation/pages/login.dart';
 import 'package:instightful_interviews_app/features/auth/presentation/pages/login_page.dart';
 import 'package:instightful_interviews_app/features/auth/presentation/pages/onboarding.dart';
 import 'package:instightful_interviews_app/features/auth/presentation/pages/signup_page.dart';
@@ -21,21 +20,23 @@ class AppRoutes {
   static final routes = [
     GetPage(name: RoutesNames.onboard, page: () => const OnBoardingPage()),
     GetPage(name: RoutesNames.authPage, page: () => const AuthHandlerPage()),
-    GetPage(name: RoutesNames.loginScreen, page: () => LoginPage()),
-    GetPage(name: RoutesNames.signupScreen, page: () => SignUpPage()),
+    GetPage(name: RoutesNames.loginScreen, page: () => const LoginPage()),
+    GetPage(name: RoutesNames.signupScreen, page: () => const SignUpPage()),
 
     // Home Screen Pages
-    GetPage(name: RoutesNames.landingPage, page: () => LandingPage()),
+    GetPage(name: RoutesNames.landingPage, page: () => const LandingPage()),
     GetPage(name: RoutesNames.homeScreen, page: () => HomePage()),
     GetPage(name: RoutesNames.stepOne, page: () => StepOne()),
     GetPage(name: RoutesNames.stepTwo, page: () => StepTwo()),
-    GetPage(name: RoutesNames.startInterview, page: () => StartInterview()),
+    GetPage(
+        name: RoutesNames.startInterview, page: () => const StartInterview()),
 
     // menu pages
-    GetPage(name: RoutesNames.landingPage, page: () => LandingPage()),
+    GetPage(name: RoutesNames.landingPage, page: () => const LandingPage()),
     GetPage(name: RoutesNames.profile, page: () => ProfilePage()),
-    GetPage(name: RoutesNames.editProfile, page: () => EditProfile() ),
-    GetPage(name: RoutesNames.history, page: () => HistoryPage()),
-    GetPage(name: RoutesNames.notification, page: () => NotificationPage()),
+    GetPage(name: RoutesNames.editProfile, page: () => EditProfile()),
+    GetPage(name: RoutesNames.history, page: () => const HistoryPage()),
+    GetPage(
+        name: RoutesNames.notification, page: () => const NotificationPage()),
   ];
 }
