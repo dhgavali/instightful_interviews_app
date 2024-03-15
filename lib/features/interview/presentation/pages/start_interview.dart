@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,32 +7,34 @@ import 'package:get/get.dart';
 import 'package:instightful_interviews_app/core/components/exports.dart';
 import 'package:instightful_interviews_app/features/auth/presentation/widgets/auth_backgound.dart';
 import 'package:instightful_interviews_app/features/auth/presentation/widgets/buttons.dart';
-import 'package:instightful_interviews_app/features/interview/data/repository/interview_repository_impl.dart';
+import 'package:instightful_interviews_app/features/interview/presentation/controller/timer_controller.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/pages/step_two.dart';
 import 'package:instightful_interviews_app/routes/route_names.dart';
 
 import '../../data/model/question_model.dart';
 import '../bloc/interview_bloc.dart';
 
-class StartInterview extends StatelessWidget {
+class StartInterview extends StatefulWidget {
   // final String yoe, role, jd;
   const StartInterview({super.key});
 
   @override
+  State<StartInterview> createState() => _StartInterviewState();
+}
+
+class _StartInterviewState extends State<StartInterview> {
+  @override
   Widget build(BuildContext context) {
-    final InterviewRepositoryImpl repository = InterviewRepositoryImpl();
     return AuthBackgroundScaffold(
       child: SafeArea(
         child: BlocProvider(
           create: (context) => interviewBloc,
           child: BlocConsumer<InterviewBloc, InterviewState>(
             listener: (context, state) {
-              // if (state is NextQuestionState) {}    }
-              if (state is InterviewResultSuccesfulState) {}
               if (state is InterviewBeginState) {
                 if (state.questionNumber == state.questions.length) {
                   context.read<InterviewBloc>().add(EndInterviewEvent());
-                  //TODO: go to result screen
+                  Get.toNamed(RoutesNames.result);
                 }
               }
             },
@@ -45,42 +49,49 @@ class StartInterview extends StatelessWidget {
                 if (state.questionNumber == state.questions.length) {
                   return Loadings.basic();
                 } else {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 15.h),
-                      questionNumberContainer(
-                          "Question #${state.questionNumber + 1}/${state.questions.length}"),
-                      SizedBox(height: 40.h),
-                      questionContainer(questionAndAnswer.question),
-                      SizedBox(height: 40.h),
-                      recordContainer(),
-                      SizedBox(height: 40.h),
-                      state.questionNumber + 1 != state.questions.length
-                          ? LoginButton(
-                              "Next Question",
-                              onPressed: () {
-                                context.read<InterviewBloc>().add(
-                                    NextQuestionEvent(
-                                        answer: questionAndAnswer.answer,
-                                        question: questionAndAnswer.question,
-                                        audio: "audio"));
-                              },
-                              color: Colors.green[400]!,
-                            )
-                          : Container(),
-                      SizedBox(height: 20.h),
-                      LoginButton(
-                        "End Interview",
-                        onPressed: () {
-                          context.read<InterviewBloc>().add(NextQuestionEvent(
-                              answer: questionAndAnswer.answer,
-                              question: questionAndAnswer.question,
-                              audio: "audio"));
-                        },
-                        color: Colors.red[300]!,
-                      ),
-                    ],
+                  return GetBuilder(
+                    init: TimerController(),
+                    builder: (timerController) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 15.h),
+                        questionNumberContainer(
+                            "Question #${state.questionNumber + 1}/${state.questions.length}"),
+                        SizedBox(height: 40.h),
+                        questionContainer(questionAndAnswer.question),
+                        SizedBox(height: 40.h),
+                        // timerController.startTimer();
+                        recordContainer(timerController.timerValue),
+
+                        SizedBox(height: 40.h),
+                        state.questionNumber + 1 != state.questions.length
+                            ? LoginButton(
+                                "Next Question",
+                                onPressed: () {
+                                  context.read<InterviewBloc>().add(
+                                      NextQuestionEvent(
+                                          answer: questionAndAnswer.answer,
+                                          question: questionAndAnswer.question,
+                                          audio: "audio"));
+                                  timerController.setTimer();
+                                },
+                                color: Colors.green[400]!,
+                              )
+                            : Container(),
+                        SizedBox(height: 20.h),
+                        LoginButton(
+                          "End Interview",
+                          onPressed: () {
+                            context.read<InterviewBloc>().add(NextQuestionEvent(
+                                answer: questionAndAnswer.answer,
+                                question: questionAndAnswer.question,
+                                audio: "audio"));
+                            timerController.dispose();
+                          },
+                          color: Colors.red[300]!,
+                        ),
+                      ],
+                    ),
                   );
                 }
               }
@@ -115,7 +126,7 @@ class StartInterview extends StatelessWidget {
     );
   }
 
-  Container recordContainer() {
+  Container recordContainer(int value) {
     return Container(
       width: 230.w,
       height: 45.h,
@@ -138,7 +149,7 @@ class StartInterview extends StatelessWidget {
               const Icon(Icons.radio_button_checked_rounded, color: Colors.red),
               SizedBox(width: 15.w),
               Text(
-                "00:00 / 1:00",
+                "$value / 00:30",
                 style: TextStyle(
                     fontSize: 22.sp,
                     color: AppColors.kgrey,

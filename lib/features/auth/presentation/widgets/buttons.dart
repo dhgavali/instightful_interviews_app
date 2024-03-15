@@ -107,6 +107,7 @@ class SocialLoginButtons extends StatelessWidget {
         // Handle login button press
       },
       style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -152,6 +153,35 @@ class ChangeAuthTextButton extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CustomBackButton extends StatelessWidget {
+  const CustomBackButton({
+    super.key,
+    required this.onTap,
+  });
+
+  final void Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(10.h),
+        decoration: BoxDecoration(
+          // color: const Color(0xffE4E5FE),
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(color: const Color(0xffE9E9E9)),
+          // boxShadow: const [
+          //   BoxShadow(
+          //       offset: Offset(0, 4), color: Colors.black26, blurRadius: 8)
+          // ],
+        ),
+        child: Icon(Icons.arrow_back_ios_new, size: 30.h, color: Colors.white),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:instightful_interviews_app/core/api.dart';
 import 'package:instightful_interviews_app/core/error/exception.dart';

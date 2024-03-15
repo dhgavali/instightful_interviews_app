@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         defaultTransition: Transition.leftToRight,
         debugShowCheckedModeBanner: false,
-        initialRoute: RoutesNames.result,
+        initialRoute: RoutesNames.onboard,
         getPages: AppRoutes.routes,
         theme: ThemeData(
           useMaterial3: false,

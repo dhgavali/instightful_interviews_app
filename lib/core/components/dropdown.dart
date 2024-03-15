@@ -5,7 +5,7 @@ import 'package:instightful_interviews_app/core/components/text_styles.dart';
 class CustomDropdown extends StatelessWidget {
   final List<String> items;
   final String value;
-  final Function (String?) onChanged;
+  final Function(String?) onChanged;
 
   CustomDropdown({
     required this.items,
@@ -18,25 +18,31 @@ class CustomDropdown extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Container(
       width: width * 0.9,
-      padding: EdgeInsets.symmetric(horizontal: 16,),
-    decoration: BoxDecoration(border: Border.all(color: AppColors.Kgray.withOpacity(0.2),), borderRadius: BorderRadius.circular(10)),
+      padding: EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.27),
+          border: Border.all(
+            color: Colors.white,
+          ),
+          borderRadius: BorderRadius.circular(10)),
       alignment: Alignment.center,
       child: DropdownButton<String>(
+        // dropdownColor: COlors,
         alignment: Alignment.center,
         borderRadius: BorderRadius.circular(10),
         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
         underline: Container(),
-     
-       icon: Icon(Icons.keyboard_arrow_down_rounded),
-       isExpanded: true,
+        icon: Icon(Icons.keyboard_arrow_down_rounded),
+        isExpanded: true,
         value: value,
         onChanged: onChanged,
-        
         items: items.map<DropdownMenuItem<String>>((String item) {
           return DropdownMenuItem<String>(
             value: item,
-            child: MyTexts.body2(item, color: AppColors.Kgray),
-
+            child: MyTexts.body1(item,
+                color: Colors.black, fontWeight: FontWeight.w500),
           );
         }).toList(),
       ),

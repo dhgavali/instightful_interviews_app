@@ -29,17 +29,16 @@ class AppRoutes {
     GetPage(name: RoutesNames.landingPage, page: () => const LandingPage()),
     GetPage(name: RoutesNames.homeScreen, page: () => HomePage()),
     GetPage(name: RoutesNames.stepOne, page: () => StepOne()),
-    GetPage(name: RoutesNames.stepTwo, page: () => StepTwo()),
     GetPage(
         name: RoutesNames.startInterview, page: () => const StartInterview()),
 
     // menu pages
-   
+
     GetPage(name: RoutesNames.profile, page: () => ProfilePage()),
     GetPage(
         name: RoutesNames.notification, page: () => const NotificationPage()),
     GetPage(name: RoutesNames.result, page: () => ResultPage()),
-    GetPage(name: RoutesNames.editProfile, page: () => EditProfile() ),
+    GetPage(name: RoutesNames.editProfile, page: () => EditProfile()),
     GetPage(name: RoutesNames.pastInterview, page: () => PastInterview()),
     GetPage(name: RoutesNames.notification, page: () => NotificationPage()),
   ];

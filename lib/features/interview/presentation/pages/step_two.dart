@@ -2,15 +2,16 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instightful_interviews_app/core/components/exports.dart';
-import 'package:instightful_interviews_app/features/interview/data/repository/interview_repository_impl.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/bloc/interview_bloc.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/controller/terms_controller.dart';
 import 'package:instightful_interviews_app/routes/route_names.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 final InterviewBloc interviewBloc = InterviewBloc();
+
 class StepTwo extends StatefulWidget {
-  StepTwo({super.key});
+  final String jd, yoe, role;
+  StepTwo({super.key, required this.jd, required this.yoe, required this.role});
 
   @override
   State<StepTwo> createState() => _StepTwoState();
@@ -137,6 +138,7 @@ class _StepTwoState extends State<StepTwo> {
           PrimaryBtn(
             label: "Start Interview",
             onpress: () {
+              //TODO: make it dynamic
               interviewBloc.add(BeginInterviewEvent(
                   yoe: "2",
                   role: "Frontend Developer",

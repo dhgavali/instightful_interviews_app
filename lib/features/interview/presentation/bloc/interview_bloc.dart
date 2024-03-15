@@ -1,8 +1,6 @@
-import 'dart:io';
-
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:instightful_interviews_app/core/error/exception.dart';
 import 'package:instightful_interviews_app/core/error/failure.dart';
 import 'package:instightful_interviews_app/features/interview/data/model/question_model.dart';
 import 'package:instightful_interviews_app/features/interview/data/model/response_model.dart';
@@ -39,14 +37,16 @@ class InterviewBloc extends Bloc<InterviewEvent, InterviewState> {
     on<NextQuestionEvent>((event, emit) async {
       emit(InterviewLoadingState());
 
+      emit(InterviewBeginState(questions: questions, questionNumber));
+
       final previousResult = await repository.evaluateQuestion(
           audio: event.audio, question: event.answer, answer: event.answer);
 
       previousResult
           .fold((l) => emit(InterviewFailureState(message: l.message)), (r) {
+        print("hello");
         questionNumber += 1;
         responses.add(r);
-        emit(InterviewBeginState(questions: questions, questionNumber));
       });
     });
 
