@@ -1,5 +1,4 @@
 import 'package:instightful_interviews_app/features/interview/data/model/response_model.dart';
-
 class InterviewResult {
   final List<InterviewResponse> resultPerQuestion;
   final double language;

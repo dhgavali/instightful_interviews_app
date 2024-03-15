@@ -9,7 +9,9 @@ import 'package:instightful_interviews_app/features/interview/presentation/pages
 import 'package:instightful_interviews_app/features/interview/presentation/pages/landing.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/pages/notfication_page.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/pages/settings/edit_profile.dart';
+import 'package:instightful_interviews_app/features/interview/presentation/pages/settings/past_interviews.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/pages/settings/profile_page.dart';
+import 'package:instightful_interviews_app/features/interview/presentation/pages/settings/result.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/pages/start_interview.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/pages/step_one.dart';
 import 'package:instightful_interviews_app/features/interview/presentation/pages/step_two.dart';
@@ -32,11 +34,13 @@ class AppRoutes {
         name: RoutesNames.startInterview, page: () => const StartInterview()),
 
     // menu pages
-    GetPage(name: RoutesNames.landingPage, page: () => const LandingPage()),
+   
     GetPage(name: RoutesNames.profile, page: () => ProfilePage()),
-    GetPage(name: RoutesNames.editProfile, page: () => EditProfile()),
-    GetPage(name: RoutesNames.history, page: () => const HistoryPage()),
     GetPage(
         name: RoutesNames.notification, page: () => const NotificationPage()),
+    GetPage(name: RoutesNames.result, page: () => ResultPage()),
+    GetPage(name: RoutesNames.editProfile, page: () => EditProfile() ),
+    GetPage(name: RoutesNames.pastInterview, page: () => PastInterview()),
+    GetPage(name: RoutesNames.notification, page: () => NotificationPage()),
   ];
 }

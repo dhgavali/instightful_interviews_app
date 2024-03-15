@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
           PrimaryBtn(
               label: "Get Started",
               onpress: () {
-                Get.toNamed(RoutesNames.stepOne);
+                Get.toNamed(RoutesNames.editProfile);
               }),
         ],
       )),

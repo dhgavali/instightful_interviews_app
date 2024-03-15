@@ -14,7 +14,8 @@ class RoutesNames {
   static const String startInterview = "/startInterview";
 
   // menu pages
-  static const String history = "/history";
+  static const String pastInterview= "/pastInterview";
+  static const String result= "/result";
   static const String profile = "/profile";
   static const String editProfile = "/editProfile";
   static const String interview = "/interview";

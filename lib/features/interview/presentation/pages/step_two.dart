@@ -9,7 +9,6 @@ import 'package:instightful_interviews_app/routes/route_names.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 final InterviewBloc interviewBloc = InterviewBloc();
-
 class StepTwo extends StatefulWidget {
   StepTwo({super.key});
 

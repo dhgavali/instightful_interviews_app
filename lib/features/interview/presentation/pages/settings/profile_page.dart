@@ -47,34 +47,20 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: MyTexts.h3(
-          "Profile",
-        ),
-        centerTitle: false,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Get.offAllNamed(RoutesNames.onboard);
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Icon(Icons.logout),
-            ),
-          ),
-        ],
-      ),
+     
       body: SingleChildScrollView(
-        child: FutureBuilder(
-            future: loadUser(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  return  Profile();
+        child: SafeArea(
+          child: FutureBuilder(
+              future: loadUser(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return  Profile();
+                  }
                 }
-              }
-              return Loadings.basic();
-            }),
+                return Center(child: Loadings.basic());
+              }),
+        ),
       ),
     );
   }
@@ -96,7 +82,6 @@ class Profile extends StatelessWidget {
           Container(
             width: width,
             height: height * 0.4,
-            
             decoration: BoxDecoration(color: AppColors.KlightGray,
             image: DecorationImage(
           image: AssetImage('assets/icons/profile_bg.jpg'),
@@ -119,8 +104,8 @@ class Profile extends StatelessWidget {
           ),
           Positioned(
             width: width,
-            height: height * 0.6,
-            top: height * 0.4 - 100,
+            height: height * 0.5,
+            top: height * 0.55 - 200,
             child: Container(
               width: width,
             
@@ -137,7 +122,7 @@ class Profile extends StatelessWidget {
                 icon: Icons.settings,
                 label: "Account",
                 onpress: (){
-                Navigator.pushNamed(context, RoutesNames.editProfile);
+                Get.toNamed(RoutesNames.editProfile);
                 },
               ),
       
@@ -146,7 +131,8 @@ class Profile extends StatelessWidget {
                 icon: Icons.history,
                 label: "Past Interviews",
                  onpress: (){
-                  print("heelo");
+                  // print("heelo");
+                  Get.toNamed(RoutesNames.pastInterview);
                 },
               ),
       
